@@ -8,9 +8,10 @@ on:
       - "frontend/**"
 
 jobs:
-  build:
-    name: Build
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -23,31 +24,10 @@ jobs:
         run: npm run deploy
         working-directory: ./frontend
 
-      - name: Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: frontend
-          path: ./frontend/out
-
-  deploy:
-    name: Deploy
-    needs: [build]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: frontend
-
       - name: Deploy to Firebase
-        uses: HegarGarcia/firebase-action@master
+        uses: 
         with:
           args: deploy --only hosting --public ./frontend/out
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
-          SUBFOLDER: "./frontend"
