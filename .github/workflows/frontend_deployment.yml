@@ -44,9 +44,10 @@ jobs:
           name: frontend
 
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+        uses: HegarGarcia/firebase-action@master
         with:
           args: deploy --only hosting --public ./frontend/out
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          SUBFOLDER: "./frontend"
