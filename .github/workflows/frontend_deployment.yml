@@ -2,8 +2,8 @@ name: Deploy to Next.js
 
 on:
   push: 
-    paths: 
-      - 'frontend/**'
+    branches: 
+      - develop
 
 jobs:
   build:
