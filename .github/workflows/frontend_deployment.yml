@@ -2,10 +2,10 @@ name: Deploy to Next.js
 
 on:
   push:
-    branches: 
+    branches:
       - develop
-    paths: 
-      - 'frontend/**'
+    paths:
+      - "frontend/**"
 
 jobs:
   build:
@@ -14,40 +14,40 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      
+
       - name: Install Dependencies
         run: npm install
         working-directory: ./frontend
-      
+
       - name: Build
         run: npm run deploy
         working-directory: ./frontend
-    
+
       - name: Production Artifact
         uses: actions/upload-artifact@master
         with:
           name: frontend
-          path: ./frontend/out  
-        
+          path: ./frontend/out
+
   deploy:
     name: Deploy
     needs: [build]
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@master
-    
-    - name: Download Artifact
-      uses: actions/download-artifact@master
-      with:
-        name: frontend
-        path: ./frontend/out
-      
-    - name: Deploy to Firebase
-      uses: w9jds/firebase-action@master
-      with:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: frontend
+          path: ./frontend/out
+
+      - name: Deploy to Firebase
+        uses: HegarGarcia/firebase-action@master
+        with:
           args: deploy --only hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
