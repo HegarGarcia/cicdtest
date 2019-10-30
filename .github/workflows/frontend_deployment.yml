@@ -42,7 +42,6 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: frontend
-          path: ./frontend/out
 
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
